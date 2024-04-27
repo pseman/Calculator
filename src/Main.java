@@ -99,9 +99,9 @@ public class Main {
             //System.out.println();
 
             if (isOnlyDecimal){
-                double dw_Result = calculateDecimalExpression(b_Data_NoSpace, str_Work);
+                int i_Result = calculateDecimalExpression(b_Data_NoSpace, str_Work);
                 if (str_Work.isEmpty()) {
-                    str_Work.append(dw_Result);
+                    str_Work.append(i_Result);
                 }
             } // isOnlyDecimal
             if (isOnlyRome){
@@ -134,7 +134,7 @@ public class Main {
             default -> false;
         };
     }
-        // Возвращает десятичную цифру соответствующую переданному значению кода unicode.
+    // Возвращает десятичную цифру соответствующую переданному значению кода unicode.
     public static int decimalFigure(byte n){
         int i_Return = switch (n) {
             case 48 -> 0;
@@ -152,8 +152,7 @@ public class Main {
         return i_Return;
     }
     // То же что и предыдущий, только для латинских
-    public static char romeFigure(byte n)
-    {
+    public static char romeFigure(byte n) {
         char ch_Return = switch(n){
             case 73 -> 'I';
             case 86 -> 'V';
@@ -169,8 +168,8 @@ public class Main {
             default -> false;
         };
     }
-    public static double calculateDecimalExpression(byte b_expr[], StringBuilder str_Result) {
-        double dw_Return = 0.0;
+    public static int calculateDecimalExpression(byte b_expr[], StringBuilder str_Result) {
+        int dw_Return = 0;
         // Ищем оператор, вернее его позицию. До позиции i - это десятичное число - 1 операнд, После - 2 операнд.
         boolean bool_SecondOperand = false;
         String str_FirstOperand = new String();
@@ -220,10 +219,10 @@ public class Main {
                 dw_Return = i_FirstOperand * i_SecondOperand;
                 break;
             case "/":
-                dw_Return = (double)i_FirstOperand / (double)i_SecondOperand;
+                dw_Return = i_FirstOperand / i_SecondOperand;
                 break;
             default:
-                dw_Return = 0.0;
+                dw_Return = 0;
         }
         return dw_Return;
     }
@@ -346,10 +345,13 @@ public class Main {
         if (i_Num == 9) str_Work = "IX";
         if (i_Num == 10) str_Work = "X";
         if (i_Num > 10 && i_Num < 20) str_Work = "X" + convertDecimalToRome(i_Num % 10);
-        if (i_Num > 19 && i_Num < 50){
+        if (i_Num > 19 && i_Num < 40){
             int i_CountOfDozens = (i_Num - (i_Num % 10)) / 10;
             for (int i = 0; i < i_CountOfDozens; i++) str_Work += "X";
             str_Work += convertDecimalToRome(i_Num % 10);
+        }       
+        if (i_Num > 39 && i_Num < 50){
+            str_Work = "XL" + convertDecimalToRome(i_Num - 40);
         }
         if (i_Num > 49 && i_Num < 90){
             str_Work = convertDecimalToRomeGeneralSymbols(50);
