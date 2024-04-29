@@ -113,10 +113,11 @@ public class Main {
 
             str_Result = str_Work.toString();
         } // isNotError
-        else str_Result =  "throws Exception";
+        else GenerateException();   // str_Result =  "throws Exception";
 
         System.out.println("Output:");
-        System.out.println(str_Result);
+        if (str_Result.contains("throws Exception")) GenerateException();
+        else System.out.println(str_Result);
     }
 
     //................................ ФУНКЦИИ ...................................................................
@@ -255,13 +256,13 @@ public class Main {
         // System.out.println("Оператор: " + str_Operator);
 
         // Ни первый ни второй операнд не могут содержать более 4 символов латинских цифр
-        if (str_FirstOperand.length() > 4 || str_SecondOperand.length() > 4) return "throws Exception";
+        if (str_FirstOperand.length() > 4 || str_SecondOperand.length() > 4) GenerateException(); // return "throws Exception";
         // Операнды не должны быть пустыми
-        if (str_FirstOperand.isEmpty() || str_SecondOperand.isEmpty()) return "throws Exception";
+        if (str_FirstOperand.isEmpty() || str_SecondOperand.isEmpty()) GenerateException(); // return "throws Exception";
 
         int i_FirstOperand = convertRomeToDecimal(str_FirstOperand);
         int i_SecondOperand = convertRomeToDecimal(str_SecondOperand);
-        if (i_FirstOperand == -1 || i_SecondOperand == -1) return "throws Exception";
+        if (i_FirstOperand == -1 || i_SecondOperand == -1) GenerateException(); // return "throws Exception";
         int i_Result;
         switch (str_Operator){
             case "+":
@@ -279,7 +280,7 @@ public class Main {
             default:
                 i_Result = -1;
         }
-        if (i_Result <= 0) return "throws Exception";
+        if (i_Result <= 0) GenerateException(); // return "throws Exception";
         str_Return = convertDecimalToRome(i_Result);
 
 
@@ -367,5 +368,8 @@ public class Main {
         str_Return = str_Work;
 
         return str_Return;
+    }
+    public static void GenerateException(){
+        throw new ArithmeticException();
     }
 }
